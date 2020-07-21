@@ -1,11 +1,9 @@
 import mysql.connector
-import time
 
 conn = mysql.connector.connect(
 	host="localhost",
 	user="root",
-	password="mysql",
-	database="password_manager"
+	password="mysql"
 )
 
 cursor = conn.cursor()
@@ -18,19 +16,37 @@ try:
 except:
 	print("Welcome back!")
 
+conn.close()
 
 def add_platform(platform, password):
+	conn = mysql.connector.connect(
+        host="localhost",
+        user="root",
+        password="mysql",
+        database="password_manager"
+    )
+
+	cursor = conn.cursor()
 	command = 'INSERT INTO manager (platform, password) VALUES (%s, %s);'
 	val = (platform, password)
 	cursor.execute(command, val)
 	conn.commit()
+	conn.close()
 	print("\n\n"*20)
 
 
 def get_password(platform):
+	conn = mysql.connector.connect(
+        host="localhost",
+        user="root",
+        password="mysql",
+        database="password_manager"
+    )
+	cursor = conn.cursor()
 	cursor.execute("SELECT * FROM manager WHERE platform='"+platform+"'")
 	result = cursor.fetchall()
 	print("\n\n"+ str(result) +"\n\n")
+	conn.close()
 
 
 def main():
